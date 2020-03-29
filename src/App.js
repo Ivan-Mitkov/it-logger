@@ -1,4 +1,6 @@
 import React, { useEffect, Fragment } from "react";
+import { Provider } from "react-redux";
+import store from "./store";
 import "materialize-css/dist/css/materialize.min.css";
 import M from "materialize-css/dist/js/materialize.min.js";
 import "./App.css";
@@ -17,6 +19,7 @@ const App = () => {
     console.log("Check Use effect");
   });
   return (
+    <Provider store={store}>
     <Fragment>
       <SearchBar></SearchBar>
       <div className="container">
@@ -24,10 +27,11 @@ const App = () => {
         <AddLogModal />
         <EditLogModal />
         <AddTechModal />
-        <TechListModal/>
+        <TechListModal />
         <Logs />
       </div>
     </Fragment>
+    </Provider>
   );
 };
 
