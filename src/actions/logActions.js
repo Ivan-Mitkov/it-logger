@@ -6,7 +6,8 @@ import {
   DELETE_LOG,
   SET_CURRENT,
   CLEAR_CURRENT,
-  UPDATE_LOG
+  UPDATE_LOG,
+  SEARCH_LOGS
 } from "./types";
 
 //first example
@@ -104,7 +105,7 @@ export const clearCurrent = () => {
 export const updateLog = log => async dispatch => {
   try {
     setLoading();
-    const res=await fetch(`/logs/${log.id}`, {
+    const res = await fetch(`/logs/${log.id}`, {
       method: "PUT",
       body: JSON.stringify(log),
       headers: {
@@ -127,4 +128,22 @@ export const updateLog = log => async dispatch => {
 
 export const setLoading = () => {
   return { type: SET_LOADING };
+};
+//search logs
+export const searchLogs = text => async dispatch => {
+  try {
+    setLoading();
+    const res = await fetch(`/logs?q=${text}`);
+    const data = await res.json();
+
+    dispatch({
+      type: SEARCH_LOGS,
+      payload: data
+    });
+  } catch (error) {
+    dispatch({
+      type: LOGS_ERROR,
+      payload: error.response.data
+    });
+  }
 };
